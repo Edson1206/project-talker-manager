@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { users } = require('./talkerUsers');
 
 const app = express();
 app.use(bodyParser.json());
+
+const talkerRoute = require('./router/talkerRouter');
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -13,11 +14,8 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.get('/talker', async (_req, res) => {
-  const response = await users();
-  return res.status(200).json(response);
-});
-
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+app.use('/talker', talkerRoute);
