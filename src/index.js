@@ -5,6 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const talkerRoute = require('./router/talkerRouter');
+const loginRoute = require('./router/loginRouter');
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -19,3 +20,4 @@ app.listen(PORT, () => {
 });
 
 app.use('/talker', talkerRoute);
+app.use('/login', loginRoute);
