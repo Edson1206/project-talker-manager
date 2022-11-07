@@ -12,7 +12,9 @@ const {
 const { 
   readTalkerFile, 
   writeTalkerFile, 
-  deleteTalkerFile } = require('../utils/readWriteTokenFile');
+  deleteTalkerFile,
+  searchTalkerByName, 
+} = require('../utils/readWriteTokenFile');
 
 const router = express.Router();
 
@@ -20,6 +22,8 @@ router.get('/', async (_req, res) => {
   const response = await readTalkerFile();
   return res.status(200).json(response);
 });
+
+router.get('/search', authValidation, searchTalkerByName);
 
 router.get('/:id', existingId, async (req, res) => {
   const id = Number(req.params.id);
@@ -40,7 +44,7 @@ router.post('/',
   const info = req.body;
   const talkers = await readTalkerFile();
   info.id = talkers.length + 1;
-
+  
   await writeTalkerFile(info);
   res.status(201).json(info);
 });

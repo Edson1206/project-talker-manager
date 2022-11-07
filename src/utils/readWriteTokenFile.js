@@ -6,7 +6,7 @@ const pathName = path.resolve(__dirname, '../talker.json');
 
 const readTalkerFile = async () => {
   try {
-  const response = await readFile(pathName);
+  const response = await readFile(pathName, 'utf8');
   return JSON.parse(response);
   } catch (error) {
     console.error(`Erro: ${error}`);
@@ -33,9 +33,21 @@ const deleteTalkerFile = async (id) => {
   await writeFile(pathName, JSON.stringify(filteredTalkers, null, 2));
 };
 
+const searchTalkerByName = async (req, res) => {
+  const { q } = req.query;
+  const talkers = await readTalkerFile();
+
+  const searchTalkersByName = talkers.filter(
+    ({ name }) => name.toUpperCase().includes(q.toUpperCase()),
+  );
+
+  res.status(200).json(searchTalkersByName);
+};
+
 module.exports = {
   readTalkerFile,
   generateToken,
   writeTalkerFile,
   deleteTalkerFile,
+  searchTalkerByName,
 };
