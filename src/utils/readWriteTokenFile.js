@@ -27,8 +27,15 @@ function generateToken() {
   return crypto.randomBytes(8).toString('hex');
 }
 
+const deleteTalkerFile = async (id) => {
+  const talkers = await readTalkerFile();
+  const filteredTalkers = talkers.filter((t) => t.id !== id);
+  await writeFile(pathName, JSON.stringify(filteredTalkers, null, 2));
+};
+
 module.exports = {
   readTalkerFile,
   generateToken,
   writeTalkerFile,
+  deleteTalkerFile,
 };

@@ -9,7 +9,10 @@ const {
   rateValidation,
   rateIsIntegerValidation,
 } = require('../middlewares/talkerValidationMiddleware');
-const { readTalkerFile, writeTalkerFile } = require('../utils/readWriteTokenFile');
+const { 
+  readTalkerFile, 
+  writeTalkerFile, 
+  deleteTalkerFile } = require('../utils/readWriteTokenFile');
 
 const router = express.Router();
 
@@ -57,6 +60,12 @@ router.put('/:id',
   talkersList[talker] = { ...talkersList[talker], ...req.body };
   await writeTalkerFile(talkersList[talker]);
   res.status(200).json(talkersList[talker]);
+});
+
+router.delete('/:id', authValidation, async (req, res) => {
+  const id = Number(req.params.id);
+  await deleteTalkerFile(id);
+  res.status(204).send();
 });
 
 module.exports = router;
