@@ -42,4 +42,21 @@ router.post('/',
   res.status(201).json(info);
 });
 
+router.put('/:id', 
+  authValidation, 
+  nameValidation, 
+  ageValidation,
+  talkValidation,
+  watchValidation,
+  rateValidation,
+  rateIsIntegerValidation,
+  async (req, res) => {
+  const id = Number(req.params.id);
+  const talkersList = await readTalkerFile();
+  const talker = talkersList.findIndex((t) => t.id === id);
+  talkersList[talker] = { ...talkersList[talker], ...req.body };
+  await writeTalkerFile(talkersList[talker]);
+  res.status(200).json(talkersList[talker]);
+});
+
 module.exports = router;
