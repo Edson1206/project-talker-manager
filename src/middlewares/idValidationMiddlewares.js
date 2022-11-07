@@ -10,4 +10,6 @@ const existingId = async (req, res, next) => {
   }
 };
 
-module.exports = existingId;
+module.exports = {
+  existingId, 
+};

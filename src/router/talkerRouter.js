@@ -1,8 +1,8 @@
 const express = require('express');
+const { existingId } = require('../middlewares/idValidationMiddlewares');
+const { readTalkerFile } = require('../utils/readWriteTokenFile');
 
 const router = express.Router();
-const { readTalkerFile } = require('../utils/readWriteTokenFile');
-const existingId = require('../middlewares/validationMiddlewares');
 
 router.get('/', async (_req, res) => {
   const response = await readTalkerFile();
